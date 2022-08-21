@@ -12,7 +12,7 @@ const BLOCK_INFO = `
 `;
 
 const LINE = `
-    <div>
+    <div class="parent-line">
         <div class="line __CUSTOM_CLASS__">
             __CHILDREN__
         </div>
