@@ -53,9 +53,6 @@ main {
     -moz-user-select: none;
     -ms-user-select: none;
 }
-body {
-    padding: 0.1vw;
-}
 body > section {
     display: flex;
     flex-direction: column;
@@ -437,11 +434,14 @@ footer {
         background-image:linear-gradient(to bottom, #585858 0%, #1B1B1B 51%);
     }
     .rule-mark {
-        border: solid 1px white;
+        border: solid 1px var(--white);
         color: white;
     }
     .small-square.dice-white {
         border: var(--border-white);
         background-color: var(--white);
+    }
+    .block-info-div:nth-last-child(3) {
+        border-left: solid 1px var(--white);
     }
 }
