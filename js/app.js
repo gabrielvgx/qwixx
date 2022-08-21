@@ -97,6 +97,8 @@ const onClickInfoBlock = function(event){
         blockInfoDiv.classList.add('mark');
     }
     handleDisabledBlocks(lineEl);
+    calcScoreLine(lineEl);
+    changeLastSelection(blockInfoDiv);
 }
 
 const getDie = ( dieNumber, dieColor = 'white' ) => {
@@ -233,6 +235,95 @@ const getOrder = (curLine, maxLine, criteria = 'MIDDLE') => {
 };
 
 const getLine = () => DomEl.newDiv("line");
+const changeLastSelection = ( blockInfoDiv ) => {
+    let lineEl = blockInfoDiv.parentElement;
+    let numberSelection = blockInfoDiv.querySelector('.info > span').textContent;
+    let color = [...lineEl.classList].find( className => {
+        return className.match(/\bline-\w+\b/i);
+    }).replace('line-', '');
+    let newClass = `square-${color}`;
+    let lastSelectedEl = document.querySelector('.last-selected');
+    let oldClass = [...lastSelectedEl.classList].find( className => {
+        return className.match(/\bsquare-\b\w+/i);
+    });
+    toggleClasses(lastSelectedEl, oldClass, newClass);
+    lastSelectedEl.querySelector('.info > span').textContent = numberSelection;
+
+}
+const getScores = () => {
+    const SCORES = [0, ...Array.from(Array(12))].reduce((acc, _, i) => {
+        if( i === 0 ) acc.push(i);
+        else acc.push(acc[i-1]+i);
+        return acc;
+    }, []);
+    return SCORES;
+}
+const calcScoreLine = (line) => {
+    let totalLineEl = line.querySelector('.block-info-div:last-child');
+    let totalSpan = totalLineEl.querySelector('.info > span');
+    let countMark = line.querySelectorAll('.mark').length;
+    let scores = getScores();
+    totalSpan.textContent = scores[countMark];
+    // const MAX_LINES = 4;
+    // let lineCount = 0;
+    // const START_NUMBER = 2;
+    // const SCORES = Array.from(Array(12)).reduce((acc, _, i) => {
+    //     if( i === 0 ) acc.push(1);
+    //     else acc.push(acc[i-1]+i+1);
+    //     return acc;
+    // }, []);
+    
+    // const lines = [];
+    // const newLine = getLine();
+    // const newBlock = getBlockInfo();
+    // const newBlockScore = getBlockScore();
+    // const infoBlocks = Array.from(Array(11)).map((_, i) => {
+    //     let block = newBlock.cloneNode(true);
+    //     block.firstElementChild.textContent = (i+START_NUMBER);
+    //     return block;
+    // });
+    // const onClickInfoBlock = function(event){
+    //     const el = event.currentTarget;
+    //     const lineEl = el.parentElement;
+    //     const lineIndex = Array.from(document.querySelectorAll('.line')).findIndex( el => el == lineEl);
+    //     if(el.classList.contains('mark')) {
+    //         el.classList.remove('mark');
+    //     } else {
+    //         el.classList.add('mark');
+    //     }
+    //     let totalScoreLine = document.querySelectorAll('.total-score-line')[lineIndex];
+    //     totalScoreLine.textContent = getScoreByIndexRow(lineIndex);
+    // }
+    // while( lineCount < MAX_LINES ) {
+    //     let curLine = newLine.cloneNode();
+    //     let order = getOrder(lineCount, MAX_LINES);
+    //     let newInfo = infoBlocks.map(e=>{
+    //         let newNode = e.cloneNode(true);
+    //         newNode.onclick = onClickInfoBlock;
+    //         return newNode;
+    //     });
+    //     let orderedInfo = order === 'ASC' ? newInfo : newInfo.reverse();
+    //     orderedInfo.forEach( node => curLine.appendChild(node) );
+    //     lines.push( curLine ); 
+    //     let emptySquare = DomEl.newDiv('empty-square');
+    //     emptySquare.appendChild(DomEl.newSpan('total-score-line'));
+    //     document.querySelector('.result .calc-score').appendChild(emptySquare);
+    //     if(lineCount+1 < MAX_LINES) {
+    //         let addDiv = DomEl.newDiv('icon-add');
+    //         document.querySelector('.result .calc-score').appendChild(addDiv);
+    //     }
+    //     lineCount++;
+    // }
+    // let paperElement = document.querySelector(".paper");
+    // let scoreElement = document.querySelector(".scores");
+    // SCORES.forEach( (score, markers) => {
+    //     let blockScore = newBlockScore.cloneNode(true);
+    //     blockScore.querySelector(".markers").textContent = (markers+1) + 'x';
+    //     blockScore.querySelector(".score").textContent = score;
+    //     scoreElement.appendChild(blockScore);
+    // });
+    // lines.forEach( line => paperElement.appendChild( line ));
+}
 
 function onLoad(){
     let linesEl = [...stringToHTML(buildSheet()).children];
@@ -240,66 +331,4 @@ function onLoad(){
     linesEl.forEach(line => {
         paper.appendChild(line);
     });
-    /*
-    return;
-    const MAX_LINES = 4;
-    let lineCount = 0;
-    const START_NUMBER = 2;
-    const SCORES = Array.from(Array(12)).reduce((acc, _, i) => {
-        if( i === 0 ) acc.push(1);
-        else acc.push(acc[i-1]+i+1);
-        return acc;
-    }, []);
-    
-    const lines = [];
-    const newLine = getLine();
-    const newBlock = getBlockInfo();
-    const newBlockScore = getBlockScore();
-    const infoBlocks = Array.from(Array(11)).map((_, i) => {
-        let block = newBlock.cloneNode(true);
-        block.firstElementChild.textContent = (i+START_NUMBER);
-        return block;
-    });
-    const onClickInfoBlock = function(event){
-        const el = event.currentTarget;
-        const lineEl = el.parentElement;
-        const lineIndex = Array.from(document.querySelectorAll('.line')).findIndex( el => el == lineEl);
-        if(el.classList.contains('mark')) {
-            el.classList.remove('mark');
-        } else {
-            el.classList.add('mark');
-        }
-        let totalScoreLine = document.querySelectorAll('.total-score-line')[lineIndex];
-        totalScoreLine.textContent = getScoreByIndexRow(lineIndex);
-    }
-    while( lineCount < MAX_LINES ) {
-        let curLine = newLine.cloneNode();
-        let order = getOrder(lineCount, MAX_LINES);
-        let newInfo = infoBlocks.map(e=>{
-            let newNode = e.cloneNode(true);
-            newNode.onclick = onClickInfoBlock;
-            return newNode;
-        });
-        let orderedInfo = order === 'ASC' ? newInfo : newInfo.reverse();
-        orderedInfo.forEach( node => curLine.appendChild(node) );
-        lines.push( curLine ); 
-        let emptySquare = DomEl.newDiv('empty-square');
-        emptySquare.appendChild(DomEl.newSpan('total-score-line'));
-        document.querySelector('.result .calc-score').appendChild(emptySquare);
-        if(lineCount+1 < MAX_LINES) {
-            let addDiv = DomEl.newDiv('icon-add');
-            document.querySelector('.result .calc-score').appendChild(addDiv);
-        }
-        lineCount++;
-    }
-    let paperElement = document.querySelector(".paper");
-    let scoreElement = document.querySelector(".scores");
-    SCORES.forEach( (score, markers) => {
-        let blockScore = newBlockScore.cloneNode(true);
-        blockScore.querySelector(".markers").textContent = (markers+1) + 'x';
-        blockScore.querySelector(".score").textContent = score;
-        scoreElement.appendChild(blockScore);
-    });
-    lines.forEach( line => paperElement.appendChild( line ));
-    */
 }

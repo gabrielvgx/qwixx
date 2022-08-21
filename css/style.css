@@ -27,11 +27,11 @@
     --border-blue: 2px solid var(--blue);
 }
 
-.small-square.dice-white  { border: var(--border-black)  }
-.small-square.dice-red    { border: var(--border-red)    }
-.small-square.dice-yellow { border: var(--border-yellow) }
-.small-square.dice-green  { border: var(--border-green)  }
-.small-square.dice-blue   { border: var(--border-blue)   }
+.small-square.dice-white  { border: var(--border-black);  background-color: var(--light-black)}
+.small-square.dice-red    { border: var(--border-red);    background-color: var(--light-red)}
+.small-square.dice-yellow { border: var(--border-yellow); background-color: var(--light-yellow)}
+.small-square.dice-green  { border: var(--border-green);  background-color: var(--light-green)  }
+.small-square.dice-blue   { border: var(--border-blue);   background-color: var(--light-blue)}
 
 .line-red    { background-color: var(--red);    color: var(--red);    }
 /* .line-red    .mark-icon > i {  color: var(--red-transparency); } */
@@ -108,6 +108,9 @@ hr {
     padding-top: 1vw;
     padding-bottom: 1vw;
 }
+.block-info-div:nth-last-child(3) {
+    border-left: solid 1px black;
+}
 .block-info {
     display: flex;
     flex-direction: column;
@@ -157,7 +160,16 @@ hr {
     justify-content: center;
     align-items: center;
 }
-
+.rule-mark {
+    max-width: 100vw;
+    display: flex;
+    justify-content: center;
+    margin-left: calc(100vw - 24vw);
+    border: solid 1px black;
+}
+.rule-mark > span {
+    font-size: calc(0.2vw + 1em);
+}
 .last-selected {
     font-size: calc(2vw + 1em);
     font-weight: bold;
@@ -190,6 +202,16 @@ hr {
     margin: 0 5px;
 }
 
+.square-white {
+    background-color: var(--white);
+    color: var(--black);
+    border: solid 1px var(--black);
+}
+.square-black {
+    background-color: var(--black);
+    color: var(--white);
+    border: solid 1px var(--white);
+}
 .square-red {
     background-color: var(--light-red);
     color: var(--red);
@@ -246,15 +268,22 @@ hr {
 .points {
     display:none;
 }
-
+.roll-dice {
+    border: solid 1px black;
+    border-radius: 20%;
+    margin-left: 1vw;
+    margin-right: 1vw;
+}
 .dices {
     display: flex;
 }
 .dice-lines, .default-dice {
     display: flex;
+    align-items: center;
 }
 .default-dice {
     padding-right: 2vw;
+
 }
 .dice > i {
     font-size: calc(2vw + 1em);
@@ -333,18 +362,16 @@ i.dice-blue {
 }
 
 .small-square {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    font-size: large;
     min-width: 3vw;
     min-height: 3vw;
     width: 6vw;
     height: 4vw;
     margin: 0 2px;
-}
-
-.small-square {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    font-size: large;
+    border-radius: 15%;
 }
 
 .totalizer {
