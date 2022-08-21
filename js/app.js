@@ -21,18 +21,11 @@ const LINE = `
 
 const DIE = `
     <div class="dice">
-        <i class="fa-solid fa-dice-__NUMBER__ die-__COLOR__"></i>
+        <i class="fa-solid fa-dice-__NUMBER__ dice-__COLOR__"></i>
     </div>
 `;
 
-const MAP_DIE_CLASS = {
-    1: 'one',
-    2: 'two',
-    3: 'three',
-    4: 'four',
-    5: 'five',
-    6: 'six'
-};
+const EXT_NUMBERS = [ 'zero', 'one', 'two', 'three', 'four', 'five', 'six'];
 
 const getDefaultSheet = () => {
     let defaultItems = [...Array(11)].map( (_, index) => BLOCK_INFO.replace('__INFO__', index+2).replace('__CUSTOM_CLASS__', ''));
@@ -107,7 +100,7 @@ const onClickInfoBlock = function(event){
 }
 
 const getDie = ( dieNumber, dieColor = 'white' ) => {
-    let die = DIE.replace('__NUMBER__', MAP_DIE_CLASS[dieNumber]).replace('__COLOR__', dieColor);
+    let die = DIE.replace('__NUMBER__', EXT_NUMBERS[dieNumber]).replace('__COLOR__', dieColor);
     let dieEl = stringToHTML(die).firstChild;
     dieEl.querySelector('i').setAttribute('die-color', dieColor);
     return dieEl;
@@ -132,27 +125,46 @@ const analizeDie = ( die ) => {
     return ({classColorName: classDieColor, className: classDieNumber, number: parseInt( dieNumber )});
 };
 
+const getDiceInfo = ( dice ) => {
+    let iconsDice = dice.tagName === 'I' ? [...dice.classList] : [...dice.querySelector('i').classList];
+    let classDiceNumber = '(' + EXT_NUMBERS.map(suffix => `\\b${suffix}\\b`).join('|') + ')';
+    let classDiceIcon = iconsDice.find(className => className.match(new RegExp(`\\bfa-dice\\b\\-${classDiceNumber}`, 'i')));
+    let classDiceColor = iconsDice.find(className => className.match(new RegExp(`\\bdice\\b\\-\\w+`, 'i')));
+    if(!classDiceColor) debugger;
+    let extensionNumber = classDiceIcon.replace('fa-dice-', '');
+    return {
+        classNumber: classDiceIcon, 
+        classColor: classDiceColor,
+        number: EXT_NUMBERS.findIndex(extNumber => extNumber === extensionNumber)
+    };
+}
+
+const getTotalizerColor = ( totalizer ) => {
+    let classDiceColor = [...totalizer.classList].find(className => className.match(new RegExp(`\\bdice\\b\\-\\w+`, 'i')));
+    return classDiceColor;
+}
+
+const getDicesByClassColor = ( classColor ) => {
+    return document.querySelectorAll(`.${classColor}:not(.totalizer)`);
+}
+
 function rollDice() {
-    const dice = [...document.querySelectorAll(".dice")];
-    dice.forEach((die, i) => {
+    const dice = [...document.querySelectorAll(".dice > i")];
+    dice.forEach((curDice) => {
        let number = getRandomNumber(1, 6);
-       if(i == 0) number = 4;
-       else if(i == 1) number = 5;
-       let curClass = [...die.classList].find(className => className.match(/\bdice\b\-\d/));
-       
-       toggleClasses(die, curClass, `dice-${number}`);
-      
+       let { classNumber } = getDiceInfo(curDice);
+       toggleClasses(curDice, classNumber, `fa-dice-${EXT_NUMBERS[number]}`);
     });
     
     const totalizer = [...document.querySelectorAll(".totalizer")];
-    const [ primaryDie, secondDie ] = [...document.querySelectorAll('.dice-white:not(.totalizer)')].map( analizeDie );
+    const [ primaryDie, secondDie ] = [...document.querySelectorAll('.default-dice > .dice > i')].map( getDiceInfo );
     totalizer.forEach( tot => {
-        let dieColorClass = [...tot.classList].find( className => className.match(/\bdice\b\-\w+/i));
-        let {primary, second} = [...document.querySelectorAll(`.${dieColorClass}:not(.totalizer)`)].reduce((acc, die) => {
-            const {classColorName, number} = analizeDie(die);
+        let dieColorClass = getTotalizerColor(tot);
+        let {primary, second} = [...getDicesByClassColor(dieColorClass)].reduce((acc, die) => {
+            const {classColor, number} = getDiceInfo(die);
             acc.primary = primaryDie.number + secondDie.number;
             acc.second = acc.primary;
-            if(classColorName !== 'dice-white') {
+            if(classColor !== 'dice-white') {
                 acc.primary = number + primaryDie.number;
                 acc.second = number + secondDie.number;
             }
