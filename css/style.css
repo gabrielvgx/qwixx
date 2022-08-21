@@ -1,14 +1,25 @@
 :root {
     --white: #fcfcfc;
+    --black: #2c2727;
     --red: #d1383b;
     --yellow: #e8c236;
     --green: #1e8e29;
     --blue: #3837b3;
+
     --light-red: #eeb9ba;
     --light-yellow: #faeaab;
     --light-green: #afd8b1;
     --light-blue: #bbbeed;
-    --black: #2c2727;
+
+    --transparency: #ffffffa6;
+    --transparency-light: #ffffff4d;
+
+    --white-transparency: #ffffff61;
+    --red-transparency: #d1383b73;
+    --yellow-transparency: #e8c23673;
+    --green-transparency: #1e8e2973;
+    --blue-transparency: #3837b373;
+    
     --border-black: 2px solid var(--black);
     --border-red: 2px solid var(--red);
     --border-yellow: 2px solid var(--yellow);
@@ -21,6 +32,19 @@
 .dice-yellow { border: var(--border-yellow) }
 .dice-green  { border: var(--border-green)  }
 .dice-blue   { border: var(--border-blue)   }
+
+.line-red    { background-color: var(--red);    color: var(--red);    }
+/* .line-red    .mark-icon > i {  color: var(--red-transparency); } */
+
+.line-yellow { background-color: var(--yellow); color: var(--yellow); }
+/* .line-yellow .mark-icon > i {  color: var(--yellow-transparency); } */
+
+.line-green  { background-color: var(--green);  color: var(--green);  }
+/* .line-green  .mark-icon > i {  color: var(--green-transparency); } */
+
+.line-blue   { background-color: var(--blue);   color: var(--blue);   }
+/* .line-blue   .mark-icon > i {  color: var(--blue-transparency); } */
+.mark-icon > i { color: var(--white-transparency)};
 
 main {
     user-select: none;
@@ -42,27 +66,99 @@ body > section {
 }
 .line {
     display: flex;
-    background-color: #dd1414;
-    color: #dd1414;
     max-width: 100vw;
     height: auto;
     min-height: 4vw;
+    /* background-image: linear-gradient(to top , transparent calc(54% - 1px), var(--black), transparent calc(50% + 1px)); */
 }
-.block-info {
+.line::before {
+    /* content: "";
+    border-top: solid 1px black;
+    position: relative;
+    width: 100vw;
+    height: 100%;
+    float: left; */
+    /* top: 50%; */
+}
+hr {
+    border: 1px solid green;
+    width: 100%;
+    position: relative;
+    height: 100%;
+    /* border-radius: 5px; */
+    /* position:relative; */
+    /* margin: 1px;
+    margin-block: 1px;
+    margin-inline: 1px;
+    position:absolute; */
+    /* top:50%;
+    transform:translateY(-50%); */
+    /* border: 0.2px solid;  */
+}
+.block-info-div {
     display: flex;
     flex-direction: column;
-    
-    border-radius: 10%;
-    background-color: #ffffffe5;
     width: 100vw;
     min-width: 1vh;
     min-height: 1vw;
     height: auto;
     text-align: center;
     justify-content: center;
-    margin: 5px 2px;
+    align-items: center;
+    padding-top: 1vw;
+    padding-bottom: 1vw;
+}
+.block-info {
+    display: flex;
+    flex-direction: column;
+    border-radius: 10%;
+    background-color: var(--transparency);
+    width: 6vw;
+    min-width: 1vh;
+    min-height: 1vw;
+    height: 6vw;
+    text-align: center;
+    justify-content: center;
+    
     align-items: center;
 }
+.block-info-div > .mark-icon {
+    display:none;
+}
+.block-info-div.mark > .mark-icon {
+    display: block;
+    /* background-image: 
+        linear-gradient(to top right , transparent calc(50% - 1px), var(--green), transparent calc(50% + 1px)),
+        linear-gradient(to bottom right , transparent calc(50% - 1px), var(--green), transparent calc(50% + 1px))
+        linear-gradient(to top , transparent calc(54% - 1px), var(--green), transparent calc(50% + 1px)) 
+        ; */
+}
+.block-info > .info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+    height: 100%;
+}
+
+.block-info > .info > span {
+    font-size: calc(2vw + 1em);
+    font-weight: bold;
+    /* -webkit-text-stroke: 1px #000000; */
+}
+.block-info.circle {
+    border-radius: 50%;
+}
+
+.block-info.circle > div {
+    height: 100%;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+}
+
+
 .empty-square {
     display: flex;
     justify-content: center;
@@ -73,40 +169,22 @@ body > section {
     margin: 0 5px;
 }
 .empty-square:nth-child(1) {
-    border: solid 2px red;
+    border: solid 2px var(--red);
 }
 .empty-square:nth-child(3) {
-    border: solid 2px #f8ca14;
+    border: solid 2px var(--yellow);
 }
 .empty-square:nth-child(5) {
-    border: solid 2px #429e14;
+    border: solid 2px var(--green);
 }
 .empty-square:nth-child(7) {
-    border: solid 2px #144270;
-}
-.icon-add::after {
-    content: "+";
-    font-size: 2rem;
-}
-.icon-equals::after {
-    content: "=";
-}
-.icon-subtract::after {
-    content: "-";
+    border: solid 2px var(--blue);
 }
 
-.block-info.mark {
-    content: " ";
-    width: 100%;
-    height: 100%;
-    z-index:999;
-    background-image: 
-        linear-gradient(to top right , transparent calc(50% - 1px), var(--black), transparent calc(50% + 1px)),
-        linear-gradient(to bottom right , transparent calc(50% - 1px), var(--black), transparent calc(50% + 1px)),
-        linear-gradient(to top , transparent calc(54% - 1px), var(--black), transparent calc(50% + 1px))
-        /* linear-gradient(to left right , transparent calc(50% - 1px), var(--black), transparent calc(50% + 1px)) */
-        ;
+.block-info-div[disabled] > .block-info {
+    background-color: var(--transparency-light);
 }
+
 /*div.block-info[disabled]:not(.mark)::before*/
 /* .line::before {
     content: "";
@@ -122,50 +200,6 @@ body > section {
     font-size: calc(2vw + 1em);
 }
 
-.block-info > .info {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    align-content: center;
-    height: 100%;
-}
-
-.block-info > .info > span {
-    font-size: calc(2vw + 1em);
-    font-weight: bold;
-    -webkit-text-stroke: 1px #000000;
-}
-
-.line:nth-child(1) > .block-info {
-    background-color: var(--light-red);
-}
-.line:nth-child(2)  {
-    background-color: var(--yellow);
-}
-
-.line:nth-child(2) > .block-info {
-    background-color: var(--light-yellow);
-    color: var(--yellow);
-}
-
-.line:nth-child(3) {
-    background-color: var(--green);
-}
-
-.line:nth-child(3) > .block-info {
-    background-color: var(--light-green);
-    color: var(--green);
-}
-
-.line:nth-child(4) {
-    background-color: var(--blue);
-}
-
-.line:nth-child(4) > .block-info {
-    background-color: var(--light-blue);
-    color: var(--blue);
-}
-
 .scores, .result {
     display: flex;
 }
@@ -174,6 +208,15 @@ body > section {
     display:none;
 }
 
+.dices {
+    display: flex;
+}
+.dice-lines, .default-dice {
+    display: flex;
+}
+.default-dice {
+    padding-right: 2vw;
+}
 .dice > i {
     font-size: calc(2vw + 1em);
     border-radius: 20%;
@@ -186,42 +229,34 @@ i.die-white {
     background-color: var(--black);
 }
 
-.block-info.circle {
-    border-radius: 45%;
-}
-
-.block-info.circle > div {
-    height: 100%;
-    display: flex;
-    align-content: center;
-    justify-content: center;
-    align-items: center;
-}
-
 i.die-red {
     color: var(--white);
     background-color: var(--red);
     border-left: solid 1px var(--red);
     border-right: solid 1px var(--red);
 }
+
 i.die-yellow {
     color: var(--white);
     background-color: var(--yellow);
     border-left: solid 1px var(--yellow);
     border-right: solid 1px var(--yellow);
 }
+
 i.die-green {
     color: var(--white);
     background-color: var(--green);
     border-left: solid 1px var(--green);
     border-right: solid 1px var(--green);
 }
+
 i.die-blue {
     color: var(--white);
     background-color: var(--blue);
     border-left: solid 1px var(--blue);
     border-right: solid 1px var(--blue);
 }
+
 .result, .calc-score {
     align-content: center;
     align-items: center;
@@ -258,24 +293,10 @@ i.die-blue {
     font-size: larger;
 }
 
-.dices {
-    display: flex;
-}
-
 .small-square {
     min-width: 3vw;
     min-height: 3vw;
     margin: 0 2px;
-    
-    /* padding: 1px; */
-}
-
-.dice-lines, .default-dice {
-    display: flex;
-}
-
-.default-dice {
-    padding-right: 2vw;
 }
 
 .small-square {
@@ -299,4 +320,26 @@ i.die-blue {
 
 .small-square.totalizer {
     min-width: 4.5vw;
+}
+
+.flat-button {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    border: 0px;   
+    background-color: #2496f1;
+    color: white;
+    padding: 0.5%;
+    margin: 0.5%;
+    max-width: 30vw;
+    max-height: 30vw;
+    width: 5vw;
+    height: 5vw;
+    border-radius: 50%;
+}
+
+footer {
+    display: flex;
+    width: 100%;
 }

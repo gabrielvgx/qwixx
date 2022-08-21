@@ -1,15 +1,21 @@
 const BLOCK_INFO = `
-    <div class="block-info __CUSTOM_CLASS__" onclick="onClickInfoBlock(event)">
-        <div class="info">
-            <span>__INFO__</span>
+    <div class="block-info-div">
+        <div class="block-info __CUSTOM_CLASS__" onclick="onClickInfoBlock(event)">
+            <div class="info">
+                <span>__INFO__</span>
+            </div>
+        </div>
+        <div class="mark-icon" style="position: absolute;" onclick="onClickInfoBlock(event)">
+            <i class="fa-solid fa-x" style="font-size: calc(2vw + 1em); height:100%; "></i>
         </div>
     </div>
 `;
 
 const LINE = `
-    <div class="line">
-        
-        __CHILDREN__
+    <div>
+        <div class="line __CUSTOM_CLASS__">
+            __CHILDREN__
+        </div>
     </div>
 `;
 
@@ -58,32 +64,46 @@ const  stringToHTML = function (str) {
 	return doc.body;
 };
 
-const buildLine = children => LINE.replace('__CHILDREN__', children.join('\n'));
-
+const buildLine = (children, customClass = '') => {
+    return LINE.replace('__CHILDREN__', children.join('\n'))
+               .replace('__CUSTOM_CLASS__', customClass); 
+};
+const getColorsLines = () => {
+    return [
+        'line-red',
+        'line-yellow',
+        'line-green',
+        'line-blue'
+    ];
+};
 const buildSheet = name => {
     let dataset = getSheetByName( name );
-    return dataset.map( buildLine ).join('\n');
+    let colors = getColorsLines();
+    return dataset.map( (children, index) => {
+        return buildLine(children, colors[index] || colors[0]);
+    }).join('\n');
+}
+
+const handleDisabledBlocks = ( lineEl ) => {
+    let elements = [...lineEl.querySelectorAll('.block-info-div')].reverse();
+    let disabled = false;
+    elements.forEach( el => {
+        if( el.classList.contains('mark') ) { disabled = true; }
+        if( disabled ) { el.setAttribute('disabled', ''); }
+        else { el.removeAttribute('disabled'); }
+    })
 }
 
 const onClickInfoBlock = function(event){
     const el = event.currentTarget;
-    const lineEl = el.parentElement;
-    // const lineIndex = Array.from(document.querySelectorAll('.line')).findIndex( el => el == lineEl);
-    if(el.classList.contains('mark')) {
-        el.classList.remove('mark');
+    const blockInfoDiv = el.parentElement;
+    const lineEl = blockInfoDiv.parentElement;
+    if(blockInfoDiv.classList.contains('mark')) {
+        blockInfoDiv.classList.remove('mark');
     } else {
-        el.classList.add('mark');
-        let elements = lineEl.querySelectorAll('.block-info');
-        let i = 0;
-        let curEl = null;
-        while(curEl !== el) {
-            curEl = elements.item(i);
-            curEl.setAttribute('disabled', '');
-            i++;
-        }
+        blockInfoDiv.classList.add('mark');
     }
-    // let totalScoreLine = document.querySelectorAll('.total-score-line')[lineIndex];
-    // totalScoreLine.textContent = getScoreByIndexRow(lineIndex);
+    handleDisabledBlocks(lineEl);
 }
 
 const getDie = ( dieNumber, dieColor = 'white' ) => {
