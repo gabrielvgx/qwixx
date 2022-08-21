@@ -1,0 +1,302 @@
+:root {
+    --white: #fcfcfc;
+    --red: #d1383b;
+    --yellow: #e8c236;
+    --green: #1e8e29;
+    --blue: #3837b3;
+    --light-red: #eeb9ba;
+    --light-yellow: #faeaab;
+    --light-green: #afd8b1;
+    --light-blue: #bbbeed;
+    --black: #2c2727;
+    --border-black: 2px solid var(--black);
+    --border-red: 2px solid var(--red);
+    --border-yellow: 2px solid var(--yellow);
+    --border-green: 2px solid var(--green);
+    --border-blue: 2px solid var(--blue);
+}
+
+.dice-white  { border: var(--border-black)  }
+.dice-red    { border: var(--border-red)    }
+.dice-yellow { border: var(--border-yellow) }
+.dice-green  { border: var(--border-green)  }
+.dice-blue   { border: var(--border-blue)   }
+
+main {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+body {
+    padding: 0.1vw;
+}
+body > section {
+    display: flex;
+    flex-direction: column;
+}
+.paper {
+    display: flex;
+    flex-direction: column;
+    margin-top: 0.1vh;
+}
+.line {
+    display: flex;
+    background-color: #dd1414;
+    color: #dd1414;
+    max-width: 100vw;
+    height: auto;
+    min-height: 4vw;
+}
+.block-info {
+    display: flex;
+    flex-direction: column;
+    
+    border-radius: 10%;
+    background-color: #ffffffe5;
+    width: 100vw;
+    min-width: 1vh;
+    min-height: 1vw;
+    height: auto;
+    text-align: center;
+    justify-content: center;
+    margin: 5px 2px;
+    align-items: center;
+}
+.empty-square {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 3vw;
+    min-height: 3vw;
+    font-size: 1.3rem;
+    margin: 0 5px;
+}
+.empty-square:nth-child(1) {
+    border: solid 2px red;
+}
+.empty-square:nth-child(3) {
+    border: solid 2px #f8ca14;
+}
+.empty-square:nth-child(5) {
+    border: solid 2px #429e14;
+}
+.empty-square:nth-child(7) {
+    border: solid 2px #144270;
+}
+.icon-add::after {
+    content: "+";
+    font-size: 2rem;
+}
+.icon-equals::after {
+    content: "=";
+}
+.icon-subtract::after {
+    content: "-";
+}
+
+.block-info.mark {
+    content: " ";
+    width: 100%;
+    height: 100%;
+    z-index:999;
+    background-image: 
+        linear-gradient(to top right , transparent calc(50% - 1px), var(--black), transparent calc(50% + 1px)),
+        linear-gradient(to bottom right , transparent calc(50% - 1px), var(--black), transparent calc(50% + 1px)),
+        linear-gradient(to top , transparent calc(54% - 1px), var(--black), transparent calc(50% + 1px))
+        /* linear-gradient(to left right , transparent calc(50% - 1px), var(--black), transparent calc(50% + 1px)) */
+        ;
+}
+/*div.block-info[disabled]:not(.mark)::before*/
+/* .line::before {
+    content: "";
+    border-top: solid 1px var(--black);
+    width: 100%;
+    height: 100%;
+    position: relative;
+    top: 50%;
+} */
+
+/* div.mark~div::before {display:none} */
+.icon {
+    font-size: calc(2vw + 1em);
+}
+
+.block-info > .info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+    height: 100%;
+}
+
+.block-info > .info > span {
+    font-size: calc(2vw + 1em);
+    font-weight: bold;
+    -webkit-text-stroke: 1px #000000;
+}
+
+.line:nth-child(1) > .block-info {
+    background-color: var(--light-red);
+}
+.line:nth-child(2)  {
+    background-color: var(--yellow);
+}
+
+.line:nth-child(2) > .block-info {
+    background-color: var(--light-yellow);
+    color: var(--yellow);
+}
+
+.line:nth-child(3) {
+    background-color: var(--green);
+}
+
+.line:nth-child(3) > .block-info {
+    background-color: var(--light-green);
+    color: var(--green);
+}
+
+.line:nth-child(4) {
+    background-color: var(--blue);
+}
+
+.line:nth-child(4) > .block-info {
+    background-color: var(--light-blue);
+    color: var(--blue);
+}
+
+.scores, .result {
+    display: flex;
+}
+
+.points {
+    display:none;
+}
+
+.dice > i {
+    font-size: calc(2vw + 1em);
+    border-radius: 20%;
+    border-left: solid 1px var(--black);
+    border-right: solid 1px var(--black);
+}
+
+i.die-white {
+    color: white;
+    background-color: var(--black);
+}
+
+.block-info.circle {
+    border-radius: 45%;
+}
+
+.block-info.circle > div {
+    height: 100%;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+}
+
+i.die-red {
+    color: var(--white);
+    background-color: var(--red);
+    border-left: solid 1px var(--red);
+    border-right: solid 1px var(--red);
+}
+i.die-yellow {
+    color: var(--white);
+    background-color: var(--yellow);
+    border-left: solid 1px var(--yellow);
+    border-right: solid 1px var(--yellow);
+}
+i.die-green {
+    color: var(--white);
+    background-color: var(--green);
+    border-left: solid 1px var(--green);
+    border-right: solid 1px var(--green);
+}
+i.die-blue {
+    color: var(--white);
+    background-color: var(--blue);
+    border-left: solid 1px var(--blue);
+    border-right: solid 1px var(--blue);
+}
+.result, .calc-score {
+    align-content: center;
+    align-items: center;
+}
+.calc-score {
+    display: flex;
+    flex-direction: row;
+}
+.legend, .block-score {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+.block-score {
+    border: solid 1px;
+    border-radius: 20%;
+    margin: 0 2px;
+    padding: 0 5px;
+    align-items: center;
+    justify-content: center;
+    min-width: 4vw;
+    min-height: 4vw;
+}
+.markers {
+    border-bottom: solid 1px var(--black);
+}
+.title {
+    font-size: large;
+}
+.legend > span {
+    font-size: large;
+}
+.block-score > span {
+    font-size: larger;
+}
+
+.dices {
+    display: flex;
+}
+
+.small-square {
+    min-width: 3vw;
+    min-height: 3vw;
+    margin: 0 2px;
+    
+    /* padding: 1px; */
+}
+
+.dice-lines, .default-dice {
+    display: flex;
+}
+
+.default-dice {
+    padding-right: 2vw;
+}
+
+.small-square {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    font-size: large;
+}
+
+.totalizer:not(.dice-white)::before {
+    content: attr(totalizer-data-primary);
+}
+
+.totalizer::after {
+    content: attr(totalizer-data-second);
+}
+
+.totalizer.dice-white {
+    margin-right: 2vw;
+}
+
+.small-square.totalizer {
+    min-width: 4.5vw;
+}

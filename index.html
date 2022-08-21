@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Qwixx</title>
+    <link rel="stylesheet" href="css/all.min.css">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body onload="onLoad()">
+    <section>
+        <div class="paper">
+        </div>
+        <div class="points">
+            <div class="legend">
+                <span class="markers">Markers</span>
+                <span>Score</span>
+            </div>
+            <div class="scores">
+            </div>
+        </div>
+        <div class="result">
+            <div class="title"><span>Total</span></div>
+            <div class="calc-score">
+
+            </div>
+            <div class="dices">
+                <div class="default-dice">
+                    <div class="dice">
+                        <i class="fa-solid fa-dice-three die-white"></i>
+                    </div>
+                    <div class="dice">
+                        <i class="fa-solid fa-dice-three die-white"></i>
+                    </div>
+                </div>
+                
+                <div class="dice-lines">
+                </div>
+                <button type="button" id="roll-button">Roll Dice</button>
+                <div class="dice-lines">
+                    <div class="small-square totalizer dice-white"></div>
+                    <div class="small-square totalizer dice-red">
+                        <i class="fa-solid fa-dice-one light"></i>
+                    </div>
+                    <div class="small-square totalizer dice-yellow">
+                    </div>
+                    <div class="small-square totalizer dice-green">
+                    </div>
+                    <div class="small-square totalizer dice-blue"></div>
+                </div>
+            </div>
+        </div>
+        <footer>
+            <button>
+                <i class="fa-solid fa-gear"></i>
+            </button>
+            <button>
+                <i class="fa-solid fa-rotate"></i>
+            </button>
+        </footer>
+        
+        <script src="js/app.js"></script>
+    </section>
+</body>
+</html>
